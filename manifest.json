@@ -1,12 +1,11 @@
 {
-
     "description": "Tečaj i kalkulator valuta",
     "manifest_version": 2,
     "name": "Tecaj",
     "version": "6.0",
-    "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+    "homepage_url": "http://www.antoniob.com/hr/tecaj-ekstenzija.html",
     "icons": {
-        "48": "icons/beasts-48.png"
+        "48": "icons/tecaj-48.png"
     },
 
     "permissions": [
@@ -20,7 +19,7 @@
     },
 
     "web_accessible_resources": [
-        "images/snake.jpg"
+        "images/tecaj.jpg"
     ]
 
 }
