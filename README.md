@@ -1,5 +1,5 @@
-# Teèaj
+# TeÄaj
 
-## Teèaj i kalkulator valuta ##
+## TeÄaj i kalkulator valuta ##
 
-Teèaj i kalkulator valuta, podaci sa hnb.hr
+TeÄaj i kalkulator valuta, podaci sa hnb.hr
