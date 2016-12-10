@@ -1,0 +1,26 @@
+{
+
+    "description": "Tečaj i kalkulator valuta",
+    "manifest_version": 2,
+    "name": "Tecaj",
+    "version": "6.0",
+    "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+    "icons": {
+        "48": "icons/beasts-48.png"
+    },
+
+    "permissions": [
+        "activeTab"
+    ],
+
+    "browser_action": {
+        "default_icon": "icons/tecaj-32.png",
+        "default_title": "Tečaj",
+        "default_popup": "popup/tecaj.html"
+    },
+
+    "web_accessible_resources": [
+        "images/snake.jpg"
+    ]
+
+}
