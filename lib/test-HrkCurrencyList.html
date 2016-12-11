@@ -8,18 +8,36 @@
 </head>
 
 <body onload="documentLoaded(this)">
-  <div id="data-1">
+
+  <samp id="data-1">
+175090920161009201613
+036AUD001       5,042355       5,057528       5,072701
+124CAD001       5,115674       5,131067       5,146460
+203CZK001       0,276082       0,276913       0,277744
+208DKK001       1,002156       1,005172       1,008188
+348HUF100       2,418029       2,425305       2,432581
+392JPY100       6,475649       6,495134       6,514619
+578NOK001       0,808325       0,810757       0,813189
+752SEK001       0,783636       0,785994       0,788352
+756CHF001       6,801616       6,822082       6,842548
+826GBP001       8,805965       8,832462       8,858959
+840USD001       6,617560       6,637472       6,657384
+978EUR001       7,458652       7,481095       7,503538
+985PLN001       1,724424       1,729613       1,734802
+</samp>
   </div>
   <div id="test-result">
   </div>
 
   <script src="hnb-tecaj.js"></script>
+  <script src="jquery-3.1.1.min.js"></script>
 
   <script type="text/javascript">
     function documentLoaded(bodyElement) {}
 
     function test1() {
-
+      var data = $('#data-1').text();
+      var list = new CurrencyList();
     }
   </script>
 </body>
