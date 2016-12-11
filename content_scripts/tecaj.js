@@ -1,12 +1,11 @@
 /*
 messageListener():
 */
-function messageListener(request, sender, sendResponse) {
-
-  //browser.runtime.onMessage.removeListener(beastify);
+function tecaj(request, sender, sendResponse) {
+    browser.runtime.onMessage.removeListener(messageListener);
 }
 
-/*
-Assign messageListener() as a listener for messages from the extension.
-*/
-browser.runtime.onMessage.addListener(messageListener);
+function initTecajAction() {}
+
+browser.runtime.onMessage.addListener(tecaj);
+initTecajAction();

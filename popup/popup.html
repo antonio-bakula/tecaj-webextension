@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css" />
+  <title>Tečaj</title>
+</head>
+
+<body onload="documentLoaded(this)">
+  <div class="dropOut">
+    <ul>
+      <li>jedan</li>
+      <li>dva</li>
+      <li>gaa jedan</li>
+      <li>gaa dva</li>
+    </ul>
+  </div>
+
+  <script src="lib/hnb-tecaj.js"></script>
+
+  <script type="text/javascript">
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("button-close")) {
+        window.close();
+        return;
+      }
+    });
+
+    function menuItemClick(element) {}
+
+    function documentLoaded(bodyElement) {}
+  </script>
+</body>
+
+</html>

@@ -18,6 +18,11 @@
         "default_popup": "popup/tecaj.html"
     },
 
+    "content_scripts": [{
+        "js": ["content_scripts/tecaj   .js"]
+    }],
+
+
     "web_accessible_resources": [
         "images/tecaj.jpg"
     ]
