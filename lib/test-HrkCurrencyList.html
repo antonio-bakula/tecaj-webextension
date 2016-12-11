@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="popup.css" />
   <title>HrkCurrencyList test</title>
 </head>
 
 <body onload="documentLoaded(this)">
 
-  <samp id="data-1">
+  <div id="test-data" style="display:none;">
+    <code>
 175090920161009201613
 036AUD001       5,042355       5,057528       5,072701
 124CAD001       5,115674       5,131067       5,146460
@@ -24,21 +24,61 @@
 840USD001       6,617560       6,637472       6,657384
 978EUR001       7,458652       7,481095       7,503538
 985PLN001       1,724424       1,729613       1,734802
-</samp>
+    </code>
   </div>
-  <div id="test-result">
+
+  <h1>Test results</h1>
+
+  <div id="test-results">
+    <h3></h3>
+    <ul>
+    </ul>
   </div>
 
   <script src="hnb-tecaj.js"></script>
-  <script src="date-parser.js"></script>
+  <script src="util.js"></script>
   <script src="jquery-3.1.1.min.js"></script>
 
   <script type="text/javascript">
-    function documentLoaded(bodyElement) {}
+    function documentLoaded(bodyElement) {
+      test1();
+    }
+
+    class TestDisplay {
+
+      constructor(testName, selectorData, selectorResults) {
+        this.TestName = testName;
+        this.SelectorData = selectorData;
+        this.SelectorResults = selectorResults;
+      }
+
+      getTestData() {
+        var selector = '#' + this.SelectorData + ' code';
+        return $(selector).text();
+      }
+
+      assert(success, text) {
+        var ttlsel = '#' + this.Selector.Results + ' h3';
+        if (!$(ttlsel).text()) {
+          $(ttlsel).text("Results for: " + this.TestName);
+        }
+        var msg = (success ? 'PASS' : 'FAIL') + ': ' + this.TestName;
+        var lstsel = '#' + this.SelectorResults + ' ul';
+        $(lstsel).append($('<li>').append(msg));
+      }
+    }
+
 
     function test1() {
-      var data = $('#data-1').text();
+      var td = new TestDisplay('Data parsing test', 'test-data', 'test-results');
+      var data = td.getTestData();
       var list = new CurrencyList(data);
+      td.assert(list, 'List object returned is not null')
+      td.assert(list.Header.ListNumber == 175, 'List number parsing');
+      td.assert(list.Header.CreationDate == new Date(2016, 9 - 1, 9));
+      td.assert(list.Header.UsageDate == new Date(2016, 9 - 1, 10))
+      var usd = list.findItem('840');
+      td.assert(usd, 'Get USD item')
     }
   </script>
 </body>
