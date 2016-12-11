@@ -30,6 +30,7 @@
   </div>
 
   <script src="hnb-tecaj.js"></script>
+  <script src="date-parser.js"></script>
   <script src="jquery-3.1.1.min.js"></script>
 
   <script type="text/javascript">
@@ -37,7 +38,7 @@
 
     function test1() {
       var data = $('#data-1').text();
-      var list = new CurrencyList();
+      var list = new CurrencyList(data);
     }
   </script>
 </body>
