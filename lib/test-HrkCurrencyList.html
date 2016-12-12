@@ -4,6 +4,12 @@
 <head>
   <meta charset="utf-8">
   <title>HrkCurrencyList test</title>
+    <style type="text/css">
+    body
+    {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    </style>
 </head>
 
 <body onload="documentLoaded(this)">
@@ -53,8 +59,10 @@
           this._firstAssert = false;
           $(lstsel).append($('<li>').append('Test run at ' + new Date().toLocaleString()));
         }
-
-        var msg = (success ? 'PASS' : 'FAIL') + ': ' + description;
+        var scstr = success ? 'PASS' : 'FAIL';
+        var txtColor = success ? '#619239' : '#f15f07';
+        var scspan = '<span style="color:' + txtColor + ';"><strong>' + scstr + '</strong></span>';
+        var msg = scspan + ': ' + description;
         $(lstsel).append($('<li>').append(msg));
       }
 
@@ -69,8 +77,10 @@
       var td = new TestDisplay('Data parsing test', 'test-results');
       td.assert(list, 'List object returned is not null')
       td.assert(list.Header.ListNumber == 239, 'List number parsing');
-      td.assert(list.Header.CreationDate == new Date(2016, 12 - 1, 9), 'Creation date parsing');
-      td.assert(list.Header.UsageDate == new Date(2016, 12 - 1, 10), 'Usage date parsing')
+      var crd = list.Header.CreationDate.toLocaleDateString();
+      td.assert(crd == '09.12.2016.' || crd == '12/9/2016', 'Creation date parsing');
+      var udt = list.Header.UsageDate.toLocaleDateString();
+      td.assert(udt == '10.12.2016.' || udt == '12/10/2016', 'Usage date parsing');
       var usd = list.findItem('840');
       td.assert(usd, 'Get USD item');
       if (usd) {

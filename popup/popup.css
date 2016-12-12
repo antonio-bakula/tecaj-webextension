@@ -1,9 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
 html,
 body {
-    width: 100px;
+    width: 180px;
     text-align: center;
     background: #e0e0e0;
     padding-bottom: 200px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
 }
 
 a {
@@ -22,7 +29,7 @@ ul {
 }
 
 ul li {
-    font: 13px Verdana, 'Lucida Grande';
+    font-size: 13px;
     cursor: pointer;
     -webkit-transition: padding .05s linear;
     -moz-transition: padding .05s linear;
@@ -36,7 +43,7 @@ ul>li {
 }
 
 .dropOut {
-    width: 160px;
+    width: 180px;
     background: white;
     float: left;
     position: relative;
@@ -62,7 +69,7 @@ ul>li {
 .dropOut ul li {
     text-align: left;
     float: left;
-    width: 125px;
+    width: 145px;
     padding: 12px 0 10px 15px;
     margin: 0px 10px;
     color: #777;

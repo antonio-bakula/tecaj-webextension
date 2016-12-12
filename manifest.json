@@ -16,7 +16,7 @@
     "browser_action": {
         "default_icon": "icons/tecaj-32.png",
         "default_title": "Tečaj",
-        "default_popup": "popup/tecaj.html"
+        "default_popup": "popup/popup.html"
     },
 
     "content_scripts": [{
