@@ -9,7 +9,8 @@
     },
 
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "http://www.hnb.hr/"
     ],
 
     "browser_action": {
@@ -19,7 +20,7 @@
     },
 
     "content_scripts": [{
-        "js": ["content_scripts/tecaj   .js"]
+        "js": ["content_scripts/tecaj.js"]
     }],
 
 

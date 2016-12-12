@@ -8,25 +8,6 @@
 
 <body onload="documentLoaded(this)">
 
-  <div id="test-data" style="display:none;">
-    <code>
-175090920161009201613
-036AUD001       5,042355       5,057528       5,072701
-124CAD001       5,115674       5,131067       5,146460
-203CZK001       0,276082       0,276913       0,277744
-208DKK001       1,002156       1,005172       1,008188
-348HUF100       2,418029       2,425305       2,432581
-392JPY100       6,475649       6,495134       6,514619
-578NOK001       0,808325       0,810757       0,813189
-752SEK001       0,783636       0,785994       0,788352
-756CHF001       6,801616       6,822082       6,842548
-826GBP001       8,805965       8,832462       8,858959
-840USD001       6,617560       6,637472       6,657384
-978EUR001       7,458652       7,481095       7,503538
-985PLN001       1,724424       1,729613       1,734802
-    </code>
-  </div>
-
   <h1>Test results</h1>
 
   <div id="test-results">
@@ -34,6 +15,8 @@
     <ul>
     </ul>
   </div>
+  <hr>
+  <button onclick="RunAllTests()">Run again</button>
 
   <script src="hnb-tecaj.js"></script>
   <script src="util.js"></script>
@@ -41,44 +24,63 @@
 
   <script type="text/javascript">
     function documentLoaded(bodyElement) {
+      RunAllTests();
+    }
+
+    function RunAllTests()
+    {
       test1();
     }
 
     class TestDisplay {
 
-      constructor(testName, selectorData, selectorResults) {
+      constructor(testName, selectorResults) {
         this.TestName = testName;
-        this.SelectorData = selectorData;
         this.SelectorResults = selectorResults;
+        this._firstAssert = true;
       }
 
-      getTestData() {
-        var selector = '#' + this.SelectorData + ' code';
-        return $(selector).text();
-      }
+      assert(success, description) {
+        var ttlsel = '#' + this.SelectorResults + ' h3';
+        var lstsel = '#' + this.SelectorResults + ' ul';
 
-      assert(success, text) {
-        var ttlsel = '#' + this.Selector.Results + ' h3';
         if (!$(ttlsel).text()) {
           $(ttlsel).text("Results for: " + this.TestName);
         }
-        var msg = (success ? 'PASS' : 'FAIL') + ': ' + this.TestName;
-        var lstsel = '#' + this.SelectorResults + ' ul';
+        else if (this._firstAssert)
+        {
+          $(lstsel).append($('<li>').append(''));
+        }
+
+        if (this._firstAssert)
+        {
+          this._firstAssert = false;
+          $(lstsel).append($('<li>').append('Test run at ' + new Date().toLocaleString()));
+        }
+
+        var msg = (success ? 'PASS' : 'FAIL') + ': ' + description;
         $(lstsel).append($('<li>').append(msg));
       }
+
     }
 
-
     function test1() {
-      var td = new TestDisplay('Data parsing test', 'test-data', 'test-results');
-      var data = td.getTestData();
-      var list = new CurrencyList(data);
+      
+      var hnbfetch = new HnbDataDownloader();
+      hnbfetch.getData(new Date(2016, 12 - 1, 10));
+      var list = new CurrencyList(hnbfetch.Data);
+
+      var td = new TestDisplay('Data parsing test', 'test-results');
       td.assert(list, 'List object returned is not null')
-      td.assert(list.Header.ListNumber == 175, 'List number parsing');
-      td.assert(list.Header.CreationDate == new Date(2016, 9 - 1, 9));
-      td.assert(list.Header.UsageDate == new Date(2016, 9 - 1, 10))
+      td.assert(list.Header.ListNumber == 239, 'List number parsing');
+      td.assert(list.Header.CreationDate == new Date(2016, 12 - 1, 9), 'Creation date parsing');
+      td.assert(list.Header.UsageDate == new Date(2016, 12 - 1, 10), 'Usage date parsing')
       var usd = list.findItem('840');
-      td.assert(usd, 'Get USD item')
+      td.assert(usd, 'Get USD item');
+      if (usd) {
+        var usd_150kn = usd.calculateCurrencyAmount(150);
+        td.assert(usd_150kn.MiddleRate == 211.20, '1500 kn je 211.20 $')
+      }
     }
   </script>
 </body>
