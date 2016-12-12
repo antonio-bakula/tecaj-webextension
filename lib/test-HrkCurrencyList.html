@@ -27,8 +27,7 @@
       RunAllTests();
     }
 
-    function RunAllTests()
-    {
+    function RunAllTests() {
       test1();
     }
 
@@ -46,14 +45,11 @@
 
         if (!$(ttlsel).text()) {
           $(ttlsel).text("Results for: " + this.TestName);
-        }
-        else if (this._firstAssert)
-        {
+        } else if (this._firstAssert) {
           $(lstsel).append($('<li>').append(''));
         }
 
-        if (this._firstAssert)
-        {
+        if (this._firstAssert) {
           this._firstAssert = false;
           $(lstsel).append($('<li>').append('Test run at ' + new Date().toLocaleString()));
         }
@@ -65,7 +61,7 @@
     }
 
     function test1() {
-      
+
       var hnbfetch = new HnbDataDownloader();
       hnbfetch.getData(new Date(2016, 12 - 1, 10));
       var list = new CurrencyList(hnbfetch.Data);
@@ -78,8 +74,15 @@
       var usd = list.findItem('840');
       td.assert(usd, 'Get USD item');
       if (usd) {
-        var usd_150kn = usd.calculateCurrencyAmount(150);
-        td.assert(usd_150kn.MiddleRate == 211.20, '1500 kn je 211.20 $')
+        td.assert(usd.Abbrevation == 'USD', 'Abbrevation is USD');
+        //       7,102336       7,123643
+        td.assert(usd.Rate.BuyingRate == 7.081029, 'BuyingRate is 7.081029');
+        td.assert(usd.Rate.MiddleRate == 7.102336, 'MiddleRate is 7.102336');
+        td.assert(usd.Rate.SellingRate == 7.123643, 'SellingRate is 7.123643');
+        var usd_150kn = usd.calculateCurrencyAmount(1500);
+        td.assert(usd_150kn.MiddleRate == 211.2, '1500 kn = 211.20 USD');
+        var kn_200usd = usd.calculateDomesticAmount(200);
+        td.assert(kn_200usd.MiddleRate == 1420.47, '200 USD = 1420.47 kn');
       }
     }
   </script>
