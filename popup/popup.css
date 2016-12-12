@@ -1,7 +1,7 @@
 * {
-  margin: 0;
-  padding: 0;
-  outline: none;
+    margin: 0;
+    padding: 0;
+    outline: none;
 }
 
 html,
@@ -9,8 +9,7 @@ body {
     width: 180px;
     text-align: center;
     background: #e0e0e0;
-    padding-bottom: 200px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 a {
