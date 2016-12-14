@@ -10,11 +10,6 @@ body {
     font-size: 13px;
 }
 
-
-a {
-  text-decoration: none;
-}
-
 .button-close {
   float: inherit;
 }
