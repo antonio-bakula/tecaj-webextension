@@ -24,9 +24,10 @@ a {
   margin: 20px;
   padding: 10px;
   width: 280px;
+  /*background: #d0e4fe;*/
 }
 
-.calculator-title-sep
+.calculator-to-right
 {
   float:right;
   padding-right: 4px;
