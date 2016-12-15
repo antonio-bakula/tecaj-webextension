@@ -31,5 +31,5 @@ copy %source%\popup\popup.html %target%\popup\
 copy %source%\popup\popup.js %target%\popup\
 copy %source%\popup\pure-min.css %target%\popup\
 
+del /f %target%.zip
 powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::CreateFromDirectory('%target%\', '%target%.zip'); }"
-
