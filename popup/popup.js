@@ -45,7 +45,7 @@ function initPopup() {
     return false;
   });
 
-  setCalculator("840");
+  //setCalculator("840");
 }
 
 function setCalculator(currencyCode) {
