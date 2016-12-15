@@ -1,6 +1,7 @@
 var _selectedCurrency = null;
 var _currencyList = null;
 var _lastInputChanged = "";
+var _modal = null;
 
 function initPopup() {
 
@@ -25,12 +26,32 @@ function initPopup() {
     return false;
   });
 
+  $('#label-foreing-currency').click(function () {
+    var cloned = $('#menu-form').clone(true, true);
+    cloned.removeClass('menu-list-wide');
+    cloned.show();
+    if (_modal) {
+      _modal.unmount();
+    }
+    _modal = new Modal(cloned[0], true);
+    _modal.show(); 
+
+    return false;
+  });
+
+  //setCalculator("840");
 }
 
 function setCalculator(currencyCode) {
   _selectedCurrency = _currencyList.findItem(currencyCode);
   if (_selectedCurrency == null) {
     return;
+  }
+
+  // ako je prikazan popup zatvori ga
+  if (_modal) {
+    _modal.unmount();
+    _modal = null;
   }
 
   $('#menu-form').hide();
