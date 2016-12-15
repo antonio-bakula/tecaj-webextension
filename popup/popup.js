@@ -2,6 +2,9 @@ var _selectedCurrency = null;
 var _currencyList = null;
 var _lastInputChanged = "";
 var _modal = null;
+var _original_modal_height = 0;
+
+var _root_element_selector = "#root-element";
 
 function initPopup() {
 
@@ -33,13 +36,16 @@ function initPopup() {
     if (_modal) {
       _modal.unmount();
     }
-    _modal = new Modal(cloned[0], true);
-    _modal.show(); 
+    _modal = new Modal(cloned[0], true, (function () {
+      RestoreOriginalModalHeight();
+    }));
+    _modal.show();
+    StoreOriginalModalHeightAndSetCustom(440);
 
     return false;
   });
 
-  //setCalculator("840");
+  setCalculator("840");
 }
 
 function setCalculator(currencyCode) {
@@ -50,6 +56,7 @@ function setCalculator(currencyCode) {
 
   // ako je prikazan popup zatvori ga
   if (_modal) {
+    RestoreOriginalModalHeight();
     _modal.unmount();
     _modal = null;
   }
@@ -74,7 +81,6 @@ function setCalculator(currencyCode) {
     performUiCalculate();
     return false;
   });
-
 }
 
 function performUiCalculate() {
@@ -117,6 +123,21 @@ function performUiCalculate() {
 
 function getCurrencyTitleMarkup(currency) {
   return currency.Unit + " <strong>" + currency.Abbrevation + '</strong> = ' + currency.Rate.MiddleRate + " kn";
+}
+
+function StoreOriginalModalHeightAndSetCustom(customHeight) {
+  var rootHg = $(_root_element_selector).height();
+  if (rootHg < customHeight) {
+    _original_modal_height = rootHg;
+    $(_root_element_selector).height(customHeight);
+  }
+}
+
+function RestoreOriginalModalHeight() {
+  if (_original_modal_height != 0) {
+    $(_root_element_selector).height(_original_modal_height);
+    _original_modal_height = 0;
+  }
 }
 
 initPopup();
