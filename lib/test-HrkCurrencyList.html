@@ -5,9 +5,12 @@
   <meta charset="utf-8">
   <title>HrkCurrencyList test</title>
     <style type="text/css">
-    body
-    {
+    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    li {
+      list-style: none;
     }
     </style>
 </head>
@@ -34,7 +37,8 @@
     }
 
     function RunAllTests() {
-      test1();
+      test_data();
+      test_calculation();
     }
 
     class TestDisplay {
@@ -42,34 +46,30 @@
       constructor(testName, selectorResults) {
         this.TestName = testName;
         this.SelectorResults = selectorResults;
-        this._firstAssert = true;
+
+        var ttlsel = '#' + this.SelectorResults + ' h3';
+        $(ttlsel).text("Results for: " + this.TestName);
+        this.subtitle('Test run at ' + new Date().toLocaleString());
+      }
+
+      subtitle(text) {
+        var msg = '<span style="color:#3c879e;"><strong>' + text  + '</strong></span>';
+        var lstsel = '#' + this.SelectorResults + ' ul';
+        $(lstsel).append($('<li>').append('<br>'));        
+        $(lstsel).append($('<li>').append(msg));        
       }
 
       assert(success, description) {
-        var ttlsel = '#' + this.SelectorResults + ' h3';
         var lstsel = '#' + this.SelectorResults + ' ul';
-
-        if (!$(ttlsel).text()) {
-          $(ttlsel).text("Results for: " + this.TestName);
-        } else if (this._firstAssert) {
-          $(lstsel).append($('<li>').append(''));
-        }
-
-        if (this._firstAssert) {
-          this._firstAssert = false;
-          $(lstsel).append($('<li>').append('Test run at ' + new Date().toLocaleString()));
-        }
         var scstr = success ? 'PASS' : 'FAIL';
         var txtColor = success ? '#619239' : '#f15f07';
         var scspan = '<span style="color:' + txtColor + ';"><strong>' + scstr + '</strong></span>';
         var msg = scspan + ': ' + description;
         $(lstsel).append($('<li>').append(msg));
       }
-
     }
 
-    function test1() {
-
+    function test_data() {
       var hnbfetch = new HnbDataDownloader();
       hnbfetch.getData(new Date(2016, 12 - 1, 10));
       var list = new CurrencyList(hnbfetch.Data);
@@ -84,16 +84,67 @@
       var usd = list.findItem('840');
       td.assert(usd, 'Get USD item');
       if (usd) {
+        td.subtitle("Testing USD exchange rates for 10.12.2016.");
         td.assert(usd.Abbrevation == 'USD', 'Abbrevation is USD');
-        //       7,102336       7,123643
+        // USD rates 7.081029	7.102336	7.123643
         td.assert(usd.Rate.BuyingRate == 7.081029, 'BuyingRate is 7.081029');
         td.assert(usd.Rate.MiddleRate == 7.102336, 'MiddleRate is 7.102336');
         td.assert(usd.Rate.SellingRate == 7.123643, 'SellingRate is 7.123643');
+      }
+    }
+
+    function test_calculation()
+    {
+      var hnbfetch = new HnbDataDownloader();
+      hnbfetch.getData(new Date(2016, 12 - 1, 10));
+      var list = new CurrencyList(hnbfetch.Data);
+
+      var td = new TestDisplay('Calculation test', 'test-results');
+      td.assert(list, 'List object returned is not null')
+
+      // EUR rates: 7.512972	7.535579	7.558186
+      var eur = list.findItem('978');
+      td.assert(eur, 'Get EUR item');
+      
+      td.subtitle("Calculating 100€ => HRK, rates from 12.10.2016");
+      var eur2kn = eur.calculateDomesticAmount(100);
+      td.assert(eur2kn.BuyingRate == 751.3, "BuyingRate => 751.3 == " + eur2kn.BuyingRate.toString());
+      td.assert(eur2kn.MiddleRate == 753.56, "MiddleRate rate => 753.56 == " + eur2kn.MiddleRate.toString());
+      td.assert(eur2kn.SellingRate == 755.82, "SellingRate rate => 755.82 == " + eur2kn.SellingRate.toString());
+
+      td.subtitle("Calculating 1000 HRK => €, rates from 12.10.2016");
+      var kn2eur = eur.calculateCurrencyAmount(1000);
+      td.assert(kn2eur.BuyingRate == 133.1, "BuyingRate => 133.1 ==" + kn2eur.BuyingRate.toString());
+      td.assert(kn2eur.MiddleRate == 132.7, "MiddleRate rate => 132.7 == " + kn2eur.MiddleRate.toString());
+      td.assert(kn2eur.SellingRate == 132.31, "SellingRate rate => 132.31 == " + kn2eur.SellingRate.toString());
+      
+      // USD rates 7.081029	7.102336	7.123643
+      var usd = list.findItem('840');
+      td.assert(usd, 'Get USD item');
+      if (usd) {
+        td.subtitle("Calculating USD - HRK exchange rates for 10.12.2016.");
         var usd_150kn = usd.calculateCurrencyAmount(1500);
         td.assert(usd_150kn.MiddleRate == 211.2, '1500 kn = 211.20 USD');
         var kn_200usd = usd.calculateDomesticAmount(200);
         td.assert(kn_200usd.MiddleRate == 1420.47, '200 USD = 1420.47 kn');
       }
+
+      // JPY rates:	6.179448	6.198042	6.216636
+      var jpy = list.findItem('392');
+      td.assert(jpy, 'Get JPY item');
+      
+      td.subtitle("Calculating 100,000 JPY => HRK, rates from 12.10.2016");
+      var jpy2kn = jpy.calculateDomesticAmount(100000);
+      td.assert(jpy2kn.BuyingRate == 6179.45, "BuyingRate => 6179.45 == " + jpy2kn.BuyingRate.toString());
+      td.assert(jpy2kn.MiddleRate == 6198.04, "MiddleRate rate => 6198.04 == " + jpy2kn.MiddleRate.toString());
+      td.assert(jpy2kn.SellingRate == 6216.64, "SellingRate rate => 6216.64 == " + jpy2kn.SellingRate.toString());
+
+      td.subtitle("Calculating 1000 HRK => JPY, rates from 12.10.2016");
+      var kn2jpy = jpy.calculateCurrencyAmount(1000);
+      td.assert(kn2jpy.BuyingRate == 16182.68, "BuyingRate => 16182.68 ==" + kn2jpy.BuyingRate.toString());
+      td.assert(kn2jpy.MiddleRate == 16134.13, "MiddleRate rate => 16134.13 == " + kn2jpy.MiddleRate.toString());
+      td.assert(kn2jpy.SellingRate == 16085.87, "SellingRate rate => 16085.87 == " + kn2jpy.SellingRate.toString());
+      
     }
   </script>
 </body>
