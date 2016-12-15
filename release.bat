@@ -33,4 +33,3 @@ copy %source%\popup\pure-min.css %target%\popup\
 
 powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::CreateFromDirectory('%target%\', '%target%.zip'); }"
 
-rem powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::CreateFromDirectory('c:\temp\release\tecaj-ext\', 'tecaj-ext.zip'); }"
