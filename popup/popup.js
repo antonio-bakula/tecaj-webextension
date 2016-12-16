@@ -1,10 +1,12 @@
 var _selectedCurrency = null;
+var _selectedRateType = null;
 var _currencyList = null;
 var _lastInputChanged = "";
 var _modal = null;
 var _original_modal_height = 0;
 
 var _root_element_selector = "#root-element";
+
 
 function initPopup() {
 
@@ -45,7 +47,7 @@ function initPopup() {
     return false;
   });
 
-  //setCalculator("840");
+  setCalculator("840");
 }
 
 function setCalculator(currencyCode) {
@@ -81,6 +83,20 @@ function setCalculator(currencyCode) {
     performUiCalculate();
     return false;
   });
+
+  // choice of rate types (buying, middle, selling)
+  _selectedRateType = "s";
+  $('.rt-s').addClass('rate-type-selected');
+  
+  $('.rate-type-anchor').click(function () {
+    $('.rate-type-link').removeClass('rate-type-selected');
+    $(this).parent().addClass('rate-type-selected');
+    _selectedRateType = $(this).attr('data-rttp');
+    $('#calculator-title-currency').html(getCurrencyTitleMarkup(_selectedCurrency));
+    performUiCalculate();
+    return false;
+  });
+  
 }
 
 function performUiCalculate() {
@@ -92,14 +108,14 @@ function performUiCalculate() {
     var calculated = 0;
     if (_lastInputChanged == 'foreign') {
       var rate = _selectedCurrency.calculateDomesticAmount(amountFrg);
-      calculated = rate.MiddleRate;
-      $('#domestic-currency').val(rate.MiddleRate.toString());
+      calculated = getSelectedRateAmount(rate);
+      $('#domestic-currency').val(getSelectedRateAmount(rate).toString());
       logCalc = String.format("{0} {1} = {2} kn", amountFrg, _selectedCurrency.Abbrevation, calculated);
     }
     else {
       var rate = _selectedCurrency.calculateCurrencyAmount(amountDom);
-      calculated = rate.MiddleRate;
-      $('#foreign-currency').val(rate.MiddleRate.toString());
+      calculated = getSelectedRateAmount(rate);
+      $('#foreign-currency').val(getSelectedRateAmount(rate).toString());
       logCalc = String.format("{0} kn = {1} {2}", amountDom, calculated, _selectedCurrency.Abbrevation);
     }
 
@@ -128,7 +144,7 @@ function logCalculationResult(calcResult, calcLog) {
 }
 
 function getCurrencyTitleMarkup(currency) {
-  return currency.Unit + " <strong>" + currency.Abbrevation + '</strong> = ' + currency.Rate.MiddleRate + " kn";
+  return currency.Unit + " <strong>" + currency.Abbrevation + '</strong> = ' + getSelectedRateAmount(currency.Rate) + " kn";
 }
 
 function StoreOriginalModalHeightAndSetCustom(customHeight) {
@@ -141,9 +157,25 @@ function StoreOriginalModalHeightAndSetCustom(customHeight) {
 
 function RestoreOriginalModalHeight() {
   if (_original_modal_height != 0) {
-    $(_root_element_selector).height(_original_modal_height);
+    $(_root_element_selector).height(original_modal_height);
     _original_modal_height = 0;
   }
+}
+
+function getSelectedRateAmount(rate)
+{
+  if (_selectedRateType == "k") {
+    return rate.BuyingRate;
+  }
+  else if (_selectedRateType == "s") {
+    return rate.MiddleRate;
+  }
+  else if (_selectedRateType == "p") {
+    return rate.SellingRate;  
+  }
+
+  //fallback na srednji tečaj
+  return rate.MiddleRate;
 }
 
 initPopup();
