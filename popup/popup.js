@@ -106,13 +106,13 @@ function performUiCalculate() {
     var logCalc = "";
 
     var calculated = 0;
-    if (_lastInputChanged == 'foreign') {
+    if (_lastInputChanged == 'foreign' && amountFrg) {
       var rate = _selectedCurrency.calculateDomesticAmount(amountFrg);
       calculated = getSelectedRateAmount(rate);
       $('#domestic-currency').val(getSelectedRateAmount(rate).toString());
       logCalc = String.format("{0} {1} = {2} kn", amountFrg, _selectedCurrency.Abbrevation, calculated);
     }
-    else {
+    else if (amountDom) {
       var rate = _selectedCurrency.calculateCurrencyAmount(amountDom);
       calculated = getSelectedRateAmount(rate);
       $('#foreign-currency').val(getSelectedRateAmount(rate).toString());
