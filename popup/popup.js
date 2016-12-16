@@ -89,12 +89,6 @@ function performUiCalculate() {
     var amountFrg = parseFloatZeroDefault($('#foreign-currency').val());
     var logCalc = "";
 
-    var lastValue = 0;
-    var lastItem = $('.result-item').first();
-    if (lastItem.length > 0) {
-      lastValue = lastItem.val();
-    }
-
     var calculated = 0;
     if (_lastInputChanged == 'foreign') {
       var rate = _selectedCurrency.calculateDomesticAmount(amountFrg);
@@ -109,15 +103,27 @@ function performUiCalculate() {
       logCalc = String.format("{0} kn = {1} {2}", amountDom, calculated, _selectedCurrency.Abbrevation);
     }
 
-    var litemValue = Math.floor(calculated * 100); // list value is integer
-    if (calculated > 0 && litemValue != lastValue) {
-      var logLine = String.format('<li class="result-item" value="{0}">{1}</li>', litemValue, logCalc);
-      $('#calculation-results').prepend($(logLine));
-      setTimeout(function () {
-        $('.result-item').first().addClass("show");
-      }, 10);
+    if (calculated > 0) {
+      logCalculationResult(calculated, logCalc);
     }
 
+  }
+}
+
+function logCalculationResult(calcResult, calcLog) {
+  var lastValue = 0;
+  var lastItem = $('.result-item').first();
+  if (lastItem.length > 0) {
+    lastValue = lastItem.val();
+  }
+
+  var calcResultForCmp = Math.floor(calcResult * 100); // list value is integer
+  if (lastValue != calcResultForCmp) {
+    var logLine = String.format('<li class="result-item" value="{0}">{1}</li>', calcResultForCmp, calcLog);
+    $('#calculation-results').prepend($(logLine));
+    setTimeout(function () {
+      $('.result-item').first().addClass("show");
+    }, 10);
   }
 }
 

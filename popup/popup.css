@@ -8,6 +8,7 @@ html,
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 13px;
+    overflow: hidden;
 }
 
 .emph
@@ -101,6 +102,11 @@ body {
 
 
 /*---------- Calculations result --------------------*/
+.anim-list {
+  max-height: 400px;
+  overflow: auto;
+  width: 100%;
+}
 
 ul.anim-list li {
   list-style: none;
@@ -110,7 +116,7 @@ ul.anim-list li {
   margin: 0;
   padding: 0 0.5em;
   overflow: hidden;
-  width: 100%;
+  width: 90%;
 }
 
 ul.anim-list li.show {
