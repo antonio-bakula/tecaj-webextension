@@ -21,7 +21,7 @@ function initPopup() {
   for (var i = 0; i < _currencyList.Items.length; i++) {
     var currency = _currencyList.Items[i];
     var listItemText = getCurrencyTitleMarkup(currency);
-    var listItemHtml = String.format('<li id="curr-{0}" class="tecaj-item" value="{1}">{2}</li>', currency.Code, currency.Code, listItemText);
+    var listItemHtml = `<li id="curr-${currency.Code}" class="tecaj-item" value="${currency.Code}">${listItemText}</li>`;
     $('#currency-list').append($(listItemHtml));
   }
 
@@ -47,7 +47,7 @@ function initPopup() {
     return false;
   });
 
-  setCalculator("840");
+  //setCalculator("840");
 }
 
 function setCalculator(currencyCode) {
@@ -110,13 +110,13 @@ function performUiCalculate() {
       var rate = _selectedCurrency.calculateDomesticAmount(amountFrg);
       calculated = getSelectedRateAmount(rate);
       $('#domestic-currency').val(getSelectedRateAmount(rate).toString());
-      logCalc = String.format("{0} {1} = {2} kn", amountFrg, _selectedCurrency.Abbrevation, calculated);
+      logCalc = `${amountFrg} ${_selectedCurrency.Abbrevation} = ${calculated} kn`;
     }
     else if (amountDom) {
       var rate = _selectedCurrency.calculateCurrencyAmount(amountDom);
       calculated = getSelectedRateAmount(rate);
       $('#foreign-currency').val(getSelectedRateAmount(rate).toString());
-      logCalc = String.format("{0} kn = {1} {2}", amountDom, calculated, _selectedCurrency.Abbrevation);
+      logCalc = `${amountDom} kn = ${calculated} ${_selectedCurrency.Abbrevation}`;
     }
 
     if (calculated > 0) {
@@ -135,7 +135,7 @@ function logCalculationResult(calcResult, calcLog) {
 
   var calcResultForCmp = Math.floor(calcResult * 100); // list value is integer
   if (lastValue != calcResultForCmp) {
-    var logLine = String.format('<li class="result-item" value="{0}">{1}</li>', calcResultForCmp, calcLog);
+    var logLine = `<li class="result-item" value="${calcResultForCmp}">${calcLog}</li>`;
     $('#calculation-results').prepend($(logLine));
     setTimeout(function () {
       $('.result-item').first().addClass("show");
@@ -157,7 +157,7 @@ function StoreOriginalModalHeightAndSetCustom(customHeight) {
 
 function RestoreOriginalModalHeight() {
   if (_original_modal_height != 0) {
-    $(_root_element_selector).height(original_modal_height);
+    $(_root_element_selector).height(_original_modal_height);
     _original_modal_height = 0;
   }
 }
