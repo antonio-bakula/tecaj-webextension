@@ -1,23 +1,25 @@
-@echo off
+rem @echo off
 SET source=%~dp0
 SET target=c:\temp\release\tecaj-ext
 
 echo. tecaj-webextension build.  
 echo. Source = %source%
 echo. Target = %target%
-rd %release% /S /Q
-md %release%
+rd %target% /S /Q
+md %target%
 
 copy %source%\manifest.json %target%\
 copy %source%\README.md %target%\
 
-md %target%\content_scripts\
-copy %source%\content_scripts\tecaj.js %target%\content_scripts\
+rem md %target%\content_scripts\
+rem copy %source%\content_scripts\tecaj.js %target%\content_scripts\
 
 md %target%\icons
 copy %source%\icons\licence.txt %target%\icons\
 copy %source%\icons\tecaj-32.png %target%\icons\
 copy %source%\icons\tecaj-48.png %target%\icons\
+copy %source%\icons\tecaj-64.png %target%\icons\
+copy %source%\icons\tecaj-128.png %target%\icons\
 
 md %target%\lib
 copy %source%\lib\modal.js %target%\lib\

@@ -2,32 +2,22 @@
   "description": "Tečaj i kalkulator valuta",
   "manifest_version": 2,
   "name": "Tecaj",
-  "version": "6.0",
+  "version": "1.0",
   "homepage_url": "http://www.antoniob.com/hr/tecaj-ekstenzija.html",
   "icons": {
-    "48": "icons/tecaj-48.png"
+    "32": "icons/tecaj-32.png",
+    "48": "icons/tecaj-48.png",
+    "128": "icons/tecaj-128.png"
   },
 
   "permissions": [
     "activeTab",
-    "http://www.hnb.hr/",
-    "<all_urls>"
-  ],
+    "http://www.hnb.hr/"
+   ],
 
   "browser_action": {
     "default_icon": "icons/tecaj-32.png",
     "default_title": "Tečaj",
     "default_popup": "popup/popup.html"
-  },
-
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "js": ["content_scripts/tecaj.js"]
-  }],
-
-
-  "web_accessible_resources": [
-    "images/tecaj.jpg"
-  ]
-
+  }
 }
