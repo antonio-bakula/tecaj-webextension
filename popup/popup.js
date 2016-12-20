@@ -51,7 +51,11 @@ function initPopup() {
   });
 
   if (!_options.ShowCurrencyListOnStart) {
-    setCalculator("978");
+    var currencyCode = _options.readUiLastUsedValue("currency-code");
+    if (currencyCode == undefined) {
+      currencyCode = "978";
+    }
+    setCalculator(currencyCode);
   }
 }
 
@@ -67,6 +71,8 @@ function setCalculator(currencyCode) {
     _modal.unmount();
     _modal = null;
   }
+
+  _options.storeUiLastUsedValue('currency-code', currencyCode);
 
   $('#menu-form').hide();
   $('#calculator-form').show();
@@ -91,10 +97,14 @@ function setCalculator(currencyCode) {
 
   // choice of rate types (buying, middle, selling)
   _selectedRateType = _options.DefaultRateType;
-  $('.rt-s').addClass('rate-type-selected');
 
   if (_options.ShowCurrencyRateTypes) {
+    var selectedType = _options.readUiLastUsedValue('CurrencyRateType');
+    if (selectedType != undefined) {
+      _selectedRateType = selectedType;
+    }
     $('.rate-type-anchor').show();
+    $('.rt-' + _selectedRateType).addClass('rate-type-selected');
   } else {
     $('.rate-type-anchor').hide();
   }
@@ -103,6 +113,7 @@ function setCalculator(currencyCode) {
     $('.rate-type-link').removeClass('rate-type-selected');
     $(this).parent().addClass('rate-type-selected');
     _selectedRateType = $(this).attr('data-rttp');
+    _options.storeUiLastUsedValue('CurrencyRateType', _selectedRateType);
     $('#calculator-title-currency').html(getCurrencyTitleMarkup(_selectedCurrency));
     performUiCalculate();
     return false;
