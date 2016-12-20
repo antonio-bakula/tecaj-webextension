@@ -14,12 +14,17 @@ copy %source%\README.md %target%\
 rem md %target%\content_scripts\
 rem copy %source%\content_scripts\tecaj.js %target%\content_scripts\
 
-md %target%\icons
-copy %source%\icons\licence.txt %target%\icons\
-copy %source%\icons\tecaj-32.png %target%\icons\
-copy %source%\icons\tecaj-48.png %target%\icons\
-copy %source%\icons\tecaj-64.png %target%\icons\
-copy %source%\icons\tecaj-128.png %target%\icons\
+md %target%\assets
+
+md %target%\assets\icons
+copy %source%\assets\icons\tecaj-32.png %target%\assets\icons\
+copy %source%\assets\icons\tecaj-48.png %target%\assets\icons\
+copy %source%\assets\icons\tecaj-64.png %target%\assets\icons\
+copy %source%\assets\icons\tecaj-128.png %target%\assets\icons\
+
+md %target%\assets\css
+copy %source%\assets\css\tecaj.css %target%\assets\css\
+copy %source%\assets\css\pure-min.css %target%\assets\css\
 
 md %target%\lib
 copy %source%\lib\modal.js %target%\lib\
@@ -28,10 +33,12 @@ copy %source%\lib\jquery-3.1.1.min.js %target%\lib\
 copy %source%\lib\util.js %target%\lib\
 
 md %target%\popup
-copy %source%\popup\popup.css %target%\popup\
 copy %source%\popup\popup.html %target%\popup\
 copy %source%\popup\popup.js %target%\popup\
-copy %source%\popup\pure-min.css %target%\popup\
+
+md %target%\options
+copy %source%\options\options.html %target%\options\
+copy %source%\options\options.js %target%\options\
 
 del /f %target%.zip
-powershell.exe -nologo -noprofile -command "& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::CreateFromDirectory('%target%\', '%target%.zip'); }"
+7z a -r %target%.zip %target%\*.*
