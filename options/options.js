@@ -1,37 +1,40 @@
-class TecajOptions {
+let _currentOptions = null;
 
-  constructor() {
-    setDefaultOptions();
-    readFromPersistantStorage();
-  }
 
-  setDefaultOptions() {
-    this.ShowCurrencyListOnStart = true;
-    this.ShowCurrencyRateTypes = true;
-    this.DefaultCurrencyRateType = "s";
-  }
+function initSettingsForm() {
 
-  readFromPersistantStorage() {
-    var showListOnStart = localStorage.ShowCurrencyListOnStart;
-    if (showListOnStart != undefined) {
-      this.ShowCurrencyListOnStart = showListOnStart;
+  _currentOptions = new TecajOptions();
+  CopyOptionsToUI();
+
+  $('#options-form-button-default').click(function () {
+    if (window.confirm('Da li ste sigurni da želite povratak na default posvke ?')) {
+      _currentOptions.setDefaultOptions();
+      _currentOptions.writeToPersistantStorage();
+      CopyOptionsToUI();
     }
+    return false;
+  });
 
-    var showRateTypes = localStorage.ShowCurrencyRateTypes;
-    if (showRateTypes != undefined) {
-      this.ShowCurrencyRateTypes = showRateTypes;
-    }
-
-    var defaultRateType = localStorage.DefaultCurrencyRateType;
-    if (defaultRateType != undefined) {
-      this.DefaultCurrencyRateType = defaultRateType;
-    }
-  }
-
-  writeToPersistantStorage() {
-    localStorage.ShowCurrencyListOnStart = this.ShowCurrencyListOnStart;
-    localStorage.ShowCurrencyRateTypes = this.ShowCurrencyRateTypes;
-    localStorage.DefaultCurrencyRateType = this.DefaultCurrencyRateType;
-  }
- 
+  $('#options-form-button-save').click(function () {
+    CopyUIToOptions();
+    _currentOptions.writeToPersistantStorage();  
+    CopyOptionsToUI();
+    return false;
+  });
 }
+
+function CopyOptionsToUI() {
+  $('#ShowCurrencyListOnStart').prop('checked', _currentOptions.ShowCurrencyListOnStart);
+  $('#ShowCurrencyRateTypes').prop('checked', _currentOptions.ShowCurrencyRateTypes);
+  $('#DefaultRateType').val(_currentOptions.DefaultRateType);
+  $('#CalculatorFormFocus').val(_currentOptions.CalculatorFormFocus);
+}
+
+function CopyUIToOptions() {
+  _currentOptions.ShowCurrencyListOnStart = $('#ShowCurrencyListOnStart').is(':checked');
+  _currentOptions.ShowCurrencyRateTypes = $('#ShowCurrencyRateTypes').is(':checked');
+  _currentOptions.DefaultRateType = $('#DefaultRateType').val();
+  _currentOptions.CalculatorFormFocus = $('#CalculatorFormFocus').val();
+}
+
+initSettingsForm();

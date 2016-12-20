@@ -8,9 +8,52 @@
   <title>Tečaj postavke</title>
 </head>
 
-<body>
+<body class="options-page">
+  <h1>Tečaj ekstenzija - postavke</h1>
 
+  <form class="pure-form options-form">
+    <label for="ShowCurrencyListOnStart" class="pure-checkbox">
+      <input id="ShowCurrencyListOnStart" type="checkbox">
+      Inicijalno prikaži tečajnu listu. (U suprotnom pokaži kalkuklator)
+    </label>
 
+    <label for="ShowCurrencyRateTypes" class="pure-checkbox">
+      <input id="ShowCurrencyRateTypes" type="checkbox" value="">
+      Prikaži gumbe za izbor vrste tečaja (kupovni, srednji, prodajni)
+    </label>
+    
+    <br>
+    <label for="DefaultRateType">Default vrsta tečaja</label>
+    <select id="DefaultRateType" style="height:35px">
+      <option value="k">Kupovni</option>
+      <option value="s">Srednji</option>
+      <option value="p">Prodajni</option>
+    </select>
+    
+    <br><br>
+    <label for="CalculatorFormFocus">Na kalkulatoru postavi fokus na</label>
+    <select id="CalculatorFormFocus" style="height:35px">
+      <option value="c">Unos iznosa u valuti</option>
+      <option value="d">Unos iznosa u kunama</option>
+    </select>
+
+    <div class="options-form-buttons">
+      <button id="options-form-button-default" class="button-left">Zadano</button>
+      <button id="options-form-button-save" class="button-right">Spremi</button>
+    </div>
+  </form>
+  <p>
+    <ul class="credits-and-links">
+      <li>Antonio Bakula 2016.g.</li>
+      <li><a href="http://www.antoniob.com/projects/tecaj/index.html">Tečaj ekstenzija home page</a></li>
+      <li><a href="https://github.com/antonio-bakula/tecaj-webextension">Fork me on github</a></li>
+    </ul>
+  </p>
+
+  <script src="/lib/util.js"></script>
+  <script src="/lib/jquery-3.1.1.min.js"></script>
+  <script src="/lib/modal.js"></script>
+  <script src="options.js"></script>
 </body>
 
 </html>

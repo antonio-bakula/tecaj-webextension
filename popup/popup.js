@@ -1,6 +1,7 @@
 var _selectedCurrency = null;
 var _selectedRateType = null;
 var _currencyList = null;
+var _options = null;
 var _lastInputChanged = "";
 var _modal = null;
 var _original_modal_height = 0;
@@ -13,6 +14,8 @@ function initPopup() {
   if (_currencyList != null) {
     return;
   }
+
+  _options = new TecajOptions();
 
   var hnbfetch = new HnbDataDownloader();
   hnbfetch.getData(new Date());
@@ -47,7 +50,9 @@ function initPopup() {
     return false;
   });
 
-  //setCalculator("840");
+  if (!_options.ShowCurrencyListOnStart) {
+    setCalculator("978");
+  }
 }
 
 function setCalculator(currencyCode) {
@@ -85,9 +90,15 @@ function setCalculator(currencyCode) {
   });
 
   // choice of rate types (buying, middle, selling)
-  _selectedRateType = "s";
+  _selectedRateType = _options.DefaultRateType;
   $('.rt-s').addClass('rate-type-selected');
-  
+
+  if (_options.ShowCurrencyRateTypes) {
+    $('.rate-type-anchor').show();
+  } else {
+    $('.rate-type-anchor').hide();
+  }
+
   $('.rate-type-anchor').click(function () {
     $('.rate-type-link').removeClass('rate-type-selected');
     $(this).parent().addClass('rate-type-selected');
@@ -97,6 +108,12 @@ function setCalculator(currencyCode) {
     return false;
   });
   
+  if (_options.CalculatorFormFocus == 'c') {
+    $('#foreign-currency').focus();
+  } else if (_options.CalculatorFormFocus == 'd') {
+    $('#domestic-currency').focus();
+  }
+
 }
 
 function performUiCalculate() {
