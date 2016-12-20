@@ -2,13 +2,14 @@
   "description": "Tečaj i kalkulator valuta",
   "manifest_version": 2,
   "name": "Tecaj",
-  "version": "1.0",
+  "version": "1.1",
   "homepage_url": "http://www.antoniob.com/hr/tecaj-ekstenzija.html",
   "icons": {
-    "32": "icons/tecaj-32.png",
-    "48": "icons/tecaj-48.png",
-    "128": "icons/tecaj-128.png"
+    "32": "/assets/icons/tecaj-32.png",
+    "48": "/assets/icons/tecaj-48.png",
+    "128": "/assets/icons/tecaj-128.png"
   },
+  "options_page": "/options/options.html",
 
   "permissions": [
     "activeTab",
@@ -16,8 +17,8 @@
    ],
 
   "browser_action": {
-    "default_icon": "icons/tecaj-32.png",
+    "default_icon": "/assets/icons/tecaj-32.png",
     "default_title": "Tečaj",
-    "default_popup": "popup/popup.html"
+    "default_popup": "/popup/popup.html"
   }
 }
