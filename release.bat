@@ -1,4 +1,4 @@
-rem @echo off
+@echo off
 SET source=%~dp0
 SET target=c:\temp\release\tecaj-ext
 
