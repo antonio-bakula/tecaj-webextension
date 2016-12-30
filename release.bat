@@ -29,7 +29,7 @@ copy %source%\assets\css\pure-min.css %target%\assets\css\
 md %target%\lib
 copy %source%\lib\modal.js %target%\lib\
 copy %source%\lib\hnb-tecaj.js %target%\lib\
-copy %source%\lib\jquery-3.1.1.min.js %target%\lib\
+copy %source%\lib\jquery-2.2.4.min.js %target%\lib\
 copy %source%\lib\util.js %target%\lib\
 
 md %target%\popup

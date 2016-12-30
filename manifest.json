@@ -2,7 +2,7 @@
   "description": "Tečaj i kalkulator valuta",
   "manifest_version": 2,
   "name": "Tecaj",
-  "version": "1.1",
+  "version": "1.2",
   "homepage_url": "http://www.antoniob.com/hr/tecaj-ekstenzija.html",
   "icons": {
     "32": "/assets/icons/tecaj-32.png",

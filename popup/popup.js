@@ -23,9 +23,9 @@ function initPopup() {
   _currencyList = new CurrencyList(hnbfetch.Data);
   for (var i = 0; i < _currencyList.Items.length; i++) {
     var currency = _currencyList.Items[i];
-    var listItemText = getCurrencyTitleMarkup(currency);
-    var listItemHtml = `<li id="curr-${currency.Code}" class="tecaj-item" value="${currency.Code}">${listItemText}</li>`;
-    $('#currency-list').append($(listItemHtml));
+
+    var li = appendListItem('#currency-list', `curr-${currency.Code}`, 'tecaj-item', currency.Code);
+    setCurrencyTitleElements(li, currency, false);
   }
 
   $('.tecaj-item').click(function () {
@@ -77,7 +77,7 @@ function setCalculator(currencyCode) {
   $('#menu-form').hide();
   $('#calculator-form').show();
 
-  $('#calculator-title-currency').html(getCurrencyTitleMarkup(_selectedCurrency));
+  setCurrencyTitleElements('#calculator-title-currency', _selectedCurrency);
   $('#label-foreing-currency').text(_selectedCurrency.Abbrevation);
 
   $('#domestic-currency').change(function () {
@@ -114,7 +114,8 @@ function setCalculator(currencyCode) {
     $(this).parent().addClass('rate-type-selected');
     _selectedRateType = $(this).attr('data-rttp');
     _options.storeUiLastUsedValue('CurrencyRateType', _selectedRateType);
-    $('#calculator-title-currency').html(getCurrencyTitleMarkup(_selectedCurrency));
+    setCurrencyTitleElements('#calculator-title-currency', _selectedCurrency);
+    
     performUiCalculate();
     return false;
   });
@@ -162,17 +163,39 @@ function logCalculationResult(calcResult, calcLog) {
   }
 
   var calcResultForCmp = Math.floor(calcResult * 100); // list value is integer
-  if (lastValue != calcResultForCmp) {
-    var logLine = `<li class="result-item" value="${calcResultForCmp}">${calcLog}</li>`;
-    $('#calculation-results').prepend($(logLine));
+  if (lastValue != calcResultForCmp) {    
+    prependListItemWithClass('#calculation-results', 'result-item', calcResultForCmp, calcLog);
     setTimeout(function () {
       $('.result-item').first().addClass("show");
     }, 10);
   }
 }
 
-function getCurrencyTitleMarkup(currency) {
-  return currency.Unit + " <strong>" + currency.Abbrevation + '</strong> = ' + getSelectedRateAmount(currency.Rate) + " kn";
+function setCurrencyTitleElements(parentSelectorOrElement, currency, replaceChildren = true)
+{
+  var parentElement = null;
+  if (typeof parentSelectorOrElement === 'string') {
+    var parentJqObject = $(parentSelectorOrElement);
+    if (parentJqObject.length == 0) {
+      return;
+    }  
+    parentElement = parentJqObject[0];
+  }
+  else
+  {
+    parentElement = parentSelectorOrElement;
+  }
+
+  if (replaceChildren) {
+    while (parentElement.firstChild) {
+      parentElement.removeChild(parentElement.firstChild);
+    }
+  }
+  parentElement.appendChild(document.createTextNode(currency.Unit + '\u00A0'));
+  var strong = document.createElement('strong');
+  strong.appendChild(document.createTextNode(currency.Abbrevation));
+  parentElement.appendChild(strong);
+  parentElement.appendChild(document.createTextNode(' = ' + getSelectedRateAmount(currency.Rate) + ' kn'));
 }
 
 function StoreOriginalModalHeightAndSetCustom(customHeight) {
