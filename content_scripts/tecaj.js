@@ -1,3 +1,0 @@
-function initTecajAction() {}
-
-initTecajAction();
