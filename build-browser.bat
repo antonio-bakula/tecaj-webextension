@@ -9,12 +9,12 @@
 ::
 :: Dependancies:
 :: W:\Code\WebextensionsBuild\tools\7z.exe - 7z archiver
-:: w:\Code\WebextensionsBuild\release\ - release folder
+:: w:\Code\WebextensionsBuild\tecaj-webextension\release\ - release folder
 ::
 @echo off
 SET browser=%1
 SET source=%~dp0
-SET target=w:\Code\WebextensionsBuild\release\%browser%\tecaj-ext
+SET target=w:\Code\WebextensionsBuild\tecaj-webextension\release\%browser%\tecaj-ext
 
 echo.
 echo.tecaj-webextension build for %browser%
@@ -61,7 +61,7 @@ echo.Copy - lib
 md %target%\lib
 copy %source%\lib\modal.js %target%\lib\
 copy %source%\lib\hnb-tecaj.js %target%\lib\
-copy %source%\lib\jquery-2.2.4.min.js %target%\lib\
+copy %source%\lib\jquery-3.3.1.min.js %target%\lib\
 copy %source%\lib\util.js %target%\lib\
 
 echo.Copy - popup
